@@ -17,7 +17,7 @@ class SJF {
                     element.position = index;
                     element.entries = 0;
                     element.timeSpent = 0;
-                    element.waitTime = 0; // Tiempo de espera
+                    element.waitTime = 0; // <--- Tiempo de espera
                     this.queue.push(element);
 
                 }
@@ -39,7 +39,7 @@ class SJF {
                         element.waitTime += 1;
                     });
                 }
-                this.performance.timeSpent += 1; // tiempo gastado
+                this.performance.timeSpent += 1; // <--- tiempo gastado
                 if (this.performance.timeSpent == this.performance.processingTime) {
                     this.performance.CompletionTime = time; //Registrar el momento que se completó
                     this.data[this.performance.id] = this.performance;
