@@ -42,11 +42,8 @@ Algoritmos-de-planificacion-main/
 └── LICENSE
 ```
 
-## Capturas de pantalla
-_Agrega aquí tus propias capturas de la interfaz y simulación en funcionamiento._
-
 ## Créditos
-- Desarrollado por [Tu Nombre o Equipo].
+- Desarrollado por Axel García
 - Proyecto académico para la materia de Sistemas Operativos.
 
 ## Licencia

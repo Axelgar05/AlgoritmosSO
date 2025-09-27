@@ -24,11 +24,12 @@ buttonFCFS.onclick = () => {
         alert("Cola vacia");
     } else {
         sort();
-        simulateFCFSStepByStep();
+            clearResultsTable();
+            simulateFCFSStepByStep();
     }
 }
 
-// Simulación paso a paso para FCFS
+// Simulación instantánea para FCFS
 function simulateFCFSStepByStep() {
     // Copia profunda de los datos para no modificar el original
     let simData = JSON.parse(JSON.stringify(data));
@@ -37,10 +38,8 @@ function simulateFCFSStepByStep() {
     let performance = null;
     let time = Number(simData[0].time);
     let lastEntrie = Number(simData[simData.length - 1].time);
-    let finish = true;
-    let interval = null;
 
-    interval = setInterval(() => {
+    while (true) {
         // Llegada de procesos
         simData.forEach((element, index) => {
             if (time == Number(element.time) && !element._arrived) {
@@ -58,11 +57,6 @@ function simulateFCFSStepByStep() {
             performance.entries += 1;
             if (performance.entries == 1) performance.startTime = time;
         }
-        // Actualizar tabla y gráfico
-        createTable(simData);
-        mychart.data = fcfs.exportChart.call({data: simData, backgroundColor});
-        mychart.update();
-
         // Avanzar tiempo
         time++;
         if (performance != null) {
@@ -79,16 +73,24 @@ function simulateFCFSStepByStep() {
         }
         // Verificar fin de simulación
         if (performance == null && queue.length == 0 && time > lastEntrie) {
-            clearInterval(interval);
+            break;
         }
-    }, 5000); // 5 segundos por unidad de tiempo
+    }
+    // Copiar resultados a data global
+    for (let i = 0; i < data.length; i++) {
+        Object.assign(data[i], simData[i]);
+    }
+    createTable(data);
+    mychart.data = fcfs.exportChart.call({data: simData, backgroundColor});
+    mychart.update();
 }
 buttonSJS.onclick = () => {
     if (data.length == 0) {
         alert("Cola vacia");
     } else {
         sort();
-        simulateSJFStepByStep();
+            clearResultsTable();
+            simulateSJFStepByStep();
     }
 }
 buttonSRTF.onclick = () => {
@@ -96,7 +98,8 @@ buttonSRTF.onclick = () => {
         alert("Cola vacia");
     } else {
         sort();
-        simulateSRTFStepByStep();
+            clearResultsTable();
+            simulateSRTFStepByStep();
     }
 }
 buttonRR.onclick = () => {
@@ -107,13 +110,14 @@ buttonRR.onclick = () => {
             alert("Cola vacia");
         } else {
             sort();
-            simulateRRStepByStep(quantum);
+                clearResultsTable();
+                simulateRRStepByStep(quantum);
         }
     } else {
         alert("Digite un valor numérico");
     }
 }
-// Simulación paso a paso para SJF
+// Simulación instantánea para SJF
 function simulateSJFStepByStep() {
     let simData = JSON.parse(JSON.stringify(data));
     let sjf = new SJF(simData, backgroundColor);
@@ -121,10 +125,8 @@ function simulateSJFStepByStep() {
     let performance = null;
     let time = Number(simData[0].time);
     let lastEntrie = Number(simData[simData.length - 1].time);
-    let finish = true;
-    let interval = null;
 
-    interval = setInterval(() => {
+    while (true) {
         // Llegada de procesos
         simData.forEach((element, index) => {
             if (time == Number(element.time) && !element._arrived) {
@@ -143,9 +145,6 @@ function simulateSJFStepByStep() {
             performance.entries += 1;
             if (performance.entries == 1) performance.startTime = time;
         }
-        createTable(simData);
-        mychart.data = sjf.exportChart.call({data: simData, backgroundColor});
-        mychart.update();
         time++;
         if (performance != null) {
             queue.forEach(element => {
@@ -159,12 +158,18 @@ function simulateSJFStepByStep() {
             }
         }
         if (performance == null && queue.length == 0 && time > lastEntrie) {
-            clearInterval(interval);
+            break;
         }
-    }, 5000);
+    }
+    for (let i = 0; i < data.length; i++) {
+        Object.assign(data[i], simData[i]);
+    }
+    createTable(data);
+    mychart.data = sjf.exportChart.call({data: simData, backgroundColor});
+    mychart.update();
 }
 
-// Simulación paso a paso para SRTF
+// Simulación instantánea para SRTF
 function simulateSRTFStepByStep() {
     let simData = JSON.parse(JSON.stringify(data));
     let srtf = new SRTF(simData, backgroundColor);
@@ -172,10 +177,8 @@ function simulateSRTFStepByStep() {
     let performance = null;
     let time = Number(simData[0].time);
     let lastEntrie = Number(simData[simData.length - 1].time);
-    let finish = true;
-    let interval = null;
 
-    interval = setInterval(() => {
+    while (true) {
         // Llegada de procesos
         simData.forEach((element, index) => {
             if (time == Number(element.time) && !element._arrived) {
@@ -204,9 +207,6 @@ function simulateSRTFStepByStep() {
                 if (performance.entries == 1) performance.startTime = time;
             }
         }
-        createTable(simData);
-        mychart.data = srtf.exportChart.call({data: simData, backgroundColor});
-        mychart.update();
         time++;
         if (performance != null) {
             queue.forEach(element => {
@@ -220,12 +220,18 @@ function simulateSRTFStepByStep() {
             }
         }
         if (performance == null && queue.length == 0 && time > lastEntrie) {
-            clearInterval(interval);
+            break;
         }
-    }, 5000);
+    }
+    for (let i = 0; i < data.length; i++) {
+        Object.assign(data[i], simData[i]);
+    }
+    createTable(data);
+    mychart.data = srtf.exportChart.call({data: simData, backgroundColor});
+    mychart.update();
 }
 
-// Simulación paso a paso para RR
+// Simulación instantánea para RR
 function simulateRRStepByStep(quantum) {
     let simData = JSON.parse(JSON.stringify(data));
     let rr = new RR(simData, quantum, backgroundColor);
@@ -233,11 +239,9 @@ function simulateRRStepByStep(quantum) {
     let performance = null;
     let time = Number(simData[0].time);
     let lastEntrie = Number(simData[simData.length - 1].time);
-    let finish = true;
-    let interval = null;
     let runningTime = 0;
 
-    interval = setInterval(() => {
+    while (true) {
         // Llegada de procesos
         simData.forEach((element, index) => {
             if (time == Number(element.time) && !element._arrived) {
@@ -256,9 +260,6 @@ function simulateRRStepByStep(quantum) {
             runningTime = 0;
             if (performance.entries == 1) performance.startTime = time;
         }
-        createTable(simData);
-        mychart.data = rr.exportChart.call({data: simData, backgroundColor});
-        mychart.update();
         time++;
         if (performance != null) {
             queue.forEach(element => {
@@ -279,9 +280,15 @@ function simulateRRStepByStep(quantum) {
             }
         }
         if (performance == null && queue.length == 0 && time > lastEntrie) {
-            clearInterval(interval);
+            break;
         }
-    }, 5000);
+    }
+    for (let i = 0; i < data.length; i++) {
+        Object.assign(data[i], simData[i]);
+    }
+    createTable(data);
+    mychart.data = rr.exportChart.call({data: simData, backgroundColor});
+    mychart.update();
 }
 button.onclick = () => {
     if (validateFields()) {
@@ -354,14 +361,23 @@ function createTable(data) {
     let thead = "<thead><tr><th>Nombre</th><th>Tiempo de llegada</th><th>Duración</th><th>Tiempo de comienzo</th><th>Tiempo de Fin</th><th>Tiempo de retorno</th><th>Tiempo de espera</th></tr></thead>";
     let tBody = "<tbody>";
     data.forEach(element => {
-        tBody += "<tr><td>" + element.name + "</td>";
-        tBody += "<td>" + element.time + "</td>";
-        tBody += "<td>" + element.processingTime + "</td>";
-        tBody += "<td>" + element.startTime + "</td>";
-        tBody += "<td>" + element.CompletionTime + "</td>";
-        tBody += "<td>" + (element.CompletionTime - element.time) + "</td>";
-        tBody += "<td>" + element.waitTime + "</td></tr>";
+        const safe = v => (v === undefined || v === null || isNaN(v)) ? '-' : v;
+        const start = safe(element.startTime);
+        const end = safe(element.CompletionTime);
+        const wait = safe(element.waitTime);
+        const ret = (element.CompletionTime !== undefined && element.time !== undefined && !isNaN(element.CompletionTime - element.time)) ? (element.CompletionTime - element.time) : '-';
+        tBody += `<tr><td>${safe(element.name)}</td><td>${safe(element.time)}</td><td>${safe(element.processingTime)}</td><td>${start}</td><td>${end}</td><td>${ret}</td><td>${wait}</td></tr>`;
     });
+    document.getElementById("summaryTable").innerHTML = thead + tBody;
+}
+
+// Limpia la tabla de resultados antes de simular
+function clearResultsTable() {
+    let thead = "<thead><tr><th>Nombre</th><th>Tiempo de llegada</th><th>Duración</th><th>Tiempo de comienzo</th><th>Tiempo de Fin</th><th>Tiempo de retorno</th><th>Tiempo de espera</th></tr></thead>";
+    let tBody = "<tbody>";
+    for (let i = 0; i < data.length; i++) {
+        tBody += `<tr><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>`;
+    }
     document.getElementById("summaryTable").innerHTML = thead + tBody;
 }
 

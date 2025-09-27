@@ -132,3 +132,8 @@ tr:nth-child(even) {
     /* height: 100px;
     width: 300px; */
 }
+
+.summaryTable {
+    margin-top: 20px;
+    width: 100%;
+}
