@@ -1,0 +1,7 @@
+- [ ] Add CSS styles for .summaryTable to ensure visibility
+- [ ] Move clearResultsTable function outside onclicks in index.js
+- [ ] Modify simulateFCFSStepByStep to calculate instantly
+- [ ] Modify simulateSJFStepByStep to calculate instantly
+- [ ] Modify simulateSRTFStepByStep to calculate instantly
+- [ ] Modify simulateRRStepByStep to calculate instantly
+- [ ] Test the app
