@@ -1,6 +1,6 @@
 class SJF {
-    queue = [];
-    performance = null;
+    Queue = [];
+    Performance = null;
     constructor(data, backgroundColor) {
         this.data = data;
         this.backgroundColor = backgroundColor;
@@ -85,7 +85,7 @@ class SJF {
         let dat = [],
             labels = this.returnLabels();
         this.data.forEach((element, index) => {
-            dat[index] = [element.startTime, element.CompletionTime];
+            dat[index] = [element.startTime, element.completiontime];
         });
         return {
             labels: labels,
