@@ -40,7 +40,6 @@ Algoritmos-de-planificacion-main/
 │       ├── chart.min.js
 │       └── index.js
 ├── README.md
-└── LICENSE
 ```
 
 ## Créditos
